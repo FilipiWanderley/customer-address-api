@@ -421,7 +421,7 @@ Este projeto foi desenvolvido como desafio técnico e está disponível para fin
 **Filipi Wanderley**
 
 - GitHub: [@FilipiWanderley](https://github.com/FilipiWanderley)
-- LinkedIn: [Filipi Wanderley](https://linkedin.com/in/filipi-wanderley)
+
 
 ---
 

@@ -15,6 +15,9 @@ import com.filipi.customeraddress.service.CepConsultationLogService;
 import com.filipi.customeraddress.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +69,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<CustomerResponse> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable)
+                .map(customerMapper::toResponse);
+    }
+
+    @Override
     @Transactional
     public CustomerResponse update(Long id, CustomerRequest request) {
         log.info("Updating customer id: {}", id);
@@ -80,7 +90,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerMapper.updateFromRequest(request, customer);
 
-        // Re-fetch address only if zip code changed
         if (!customer.getZipCode().equals(request.getZipCode())) {
             CepResponse address = fetchAndLogCep(request.getZipCode());
             customerMapper.applyAddressFromCep(address, customer);
@@ -99,6 +108,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Customer id {} deleted", id);
     }
 
+    @Cacheable(value = "cep", key = "#zipCode")
     private CepResponse fetchAndLogCep(String zipCode) {
         try {
             CepResponse response = cepClient.findByZipCode(zipCode);

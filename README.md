@@ -140,4 +140,4 @@ controller → service → repository
 **Filipi Wanderley**
 
 - GitHub: [@FilipiWanderley](https://github.com/FilipiWanderley)
-- LinkedIn: [Filipi Wanderley](https://linkedin.com/in/filipi-wanderley)
+

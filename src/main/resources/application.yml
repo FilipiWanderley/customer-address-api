@@ -22,7 +22,7 @@ spring:
     locations: classpath:db/migration
 
 server:
-  port: ${PORT:8080}
+  port: 8080
 
 cep:
   api:

@@ -27,7 +27,7 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Set default profile
-ENV SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=dev
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \

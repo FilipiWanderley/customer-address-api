@@ -23,15 +23,8 @@ USER spring:spring
 # Copy jar from build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose port
-EXPOSE 8080
+# Expose port - Render injects PORT env var
+EXPOSE 10000
 
-# Set default profile
-ENV SPRING_PROFILES_ACTIVE=dev
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
-
-# Run application
+# Run application - PORT is injected by Render at runtime
 ENTRYPOINT ["java", "-jar", "app.jar"]
